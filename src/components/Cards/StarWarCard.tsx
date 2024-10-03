@@ -20,17 +20,29 @@ export default function StarWarCards({ items }: StarCardDto) {
    * @param item
    */
   const toggleFavorite = (item: any) => {
-    setFavorites((prevFavorites) =>
-      prevFavorites.some(
-        (fav: any) => fav.name || fav.title == item.name || item.title
-      )
-        ? prevFavorites.filter(
-            (fav: any) => fav.name || item.name || item.title
-          )
-        : [...prevFavorites, item]
-    );
+    let updatedFavorites = [...favorites];
 
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+    // Define a unique identifier for the item based on its properties
+    const identifier = item.name || item.title;
+
+    // Check if the identifier exists in the current favorites list
+    if (
+      updatedFavorites.some(
+        (fav: any) => (fav.name || fav.title) === identifier
+      )
+    ) {
+      // If it exists, remove it
+      updatedFavorites = updatedFavorites.filter(
+        (fav: any) => (fav.name || fav.title) !== identifier
+      );
+    } else {
+      // If it doesn't exist, add it
+      updatedFavorites.push(item);
+    }
+
+    // Update the favorites and save to localStorage
+    setFavorites(updatedFavorites);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
 
   useEffect(() => {
@@ -64,7 +76,12 @@ export default function StarWarCards({ items }: StarCardDto) {
                   <StarIcon
                     className={classNames(
                       "h-6 w-6",
-                      favorites?.includes(item)
+                      favorites?.some((fav: any) => {
+                        const favIdentifier = fav.id || fav.name || fav.title;
+                        const itemIdentifier =
+                          item.id || item.name || item.title;
+                        return favIdentifier === itemIdentifier;
+                      })
                         ? "text-yellow-400"
                         : "text-gray-300"
                     )}

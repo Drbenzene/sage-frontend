@@ -3,9 +3,10 @@ import { Dialog, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   HomeIcon,
-  UsersIcon,
+  StarIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -16,8 +17,12 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 const navigation = [
-  { name: "Home", href: "/", icon: HomeIcon, current: true },
-  { name: "Favorites", href: "/favorites", icon: UsersIcon, current: false },
+  { name: "Home", href: "/", icon: HomeIcon },
+  {
+    name: "Favorites",
+    href: "/favorites",
+    icon: StarIcon,
+  },
 ];
 
 function classNames(...classes: any) {

@@ -206,7 +206,7 @@ export default function HomeLayout({ children }: LayoutProps) {
                           search: search,
                         })
                       );
-                      //save it to recent search
+                      setSearch("");
                       setRecentSearch([...recentSearch, e.target.value]);
                       localStorage.setItem(
                         "recetSearch",
@@ -217,12 +217,31 @@ export default function HomeLayout({ children }: LayoutProps) {
                   onChange={(e) => {
                     setSearch(e.target.value);
                   }}
+                  value={search}
                   className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                   placeholder="Search characters..."
                   type="search"
                   name="search"
                 />
               </form>
+            </div>
+          </div>
+
+          <div className="sticky top-16 z-30 mt-5 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+              {recentSearch.length > 0 && (
+                <span className="text-gray-900 px-2 py-1 font-bold ">
+                  Recent Search:
+                </span>
+              )}
+
+              <div className="flex flex-1 self-stretch lg:gap-x-6">
+                {recentSearch.map((item, index) => (
+                  <span key={index} className="text-gray-400 cursor-pointer ">
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
